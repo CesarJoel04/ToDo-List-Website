@@ -35,7 +35,7 @@ function addTask() {
     let deleteBtn = document.createElement("button");
     deleteBtn.className = "btn btn-danger btn-sm";
     deleteBtn.textContent = "❌";
-    // Removed confirmation for deleting a single item:
+    deleteBtn.style.backgroundColor = "white"; // Added style to make background white
     deleteBtn.onclick = function() {
         taskList.removeChild(li);
         updateTasksCookie();
@@ -120,6 +120,7 @@ function loadTasksFromCookie() {
             let deleteBtn = document.createElement("button");
             deleteBtn.className = "btn btn-danger btn-sm";
             deleteBtn.textContent = "❌";
+            deleteBtn.style.backgroundColor = "white"; // Added style to make background white
             deleteBtn.onclick = function() {
                 if (confirm("Are you sure you want to delete this task?")) {
                     let taskList = document.getElementById("taskList");
