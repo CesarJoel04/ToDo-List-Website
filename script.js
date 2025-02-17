@@ -1,3 +1,49 @@
+let dragSrcEl = null;
+
+function handleDragStart(e) {
+    dragSrcEl = this;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.outerHTML);
+    this.classList.add('dragElem');
+}
+
+function handleDragOver(e) {
+    if (e.preventDefault) {
+        e.preventDefault(); // Necessary. Allows us to drop.
+    }
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+}
+
+function handleDrop(e) {
+    if (e.stopPropagation) {
+        e.stopPropagation(); // Stops some browsers from redirecting.
+    }
+    if (dragSrcEl !== this) {
+        // Remove the source element
+        this.parentNode.removeChild(dragSrcEl);
+        // Get the dropped HTML and insert it before the current element
+        let dropHTML = e.dataTransfer.getData('text/html');
+        this.insertAdjacentHTML('beforebegin', dropHTML);
+        let dropElem = this.previousSibling;
+        addDnDHandlers(dropElem);
+    }
+    updateTasksCookie();
+    return false;
+}
+
+function handleDragEnd(e) {
+    this.classList.remove('dragElem');
+}
+
+function addDnDHandlers(elem) {
+    elem.setAttribute('draggable', true);
+    elem.addEventListener('dragstart', handleDragStart, false);
+    elem.addEventListener('dragover', handleDragOver, false);
+    elem.addEventListener('drop', handleDrop, false);
+    elem.addEventListener('dragend', handleDragEnd, false);
+}
+
 function addTask() {
     let taskInput = document.getElementById("taskInput");
     let taskText = taskInput.value.trim();
@@ -20,6 +66,8 @@ function addTask() {
 
     let li = document.createElement("li");
     li.className = "list-group-item d-flex justify-content-between align-items-center";
+    // Make the list item draggable
+    addDnDHandlers(li);
 
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -45,6 +93,8 @@ function addTask() {
     li.appendChild(span);
     li.appendChild(deleteBtn);
     taskList.appendChild(li);
+
+    addDnDHandlers(li);
 
     taskInput.value = "";
     updateTasksCookie();
@@ -101,6 +151,8 @@ function loadTasksFromCookie() {
             if (task.completed) {
                 li.classList.add("completed");
             }
+            // Enable drag and drop
+            addDnDHandlers(li);
     
             // Checkbox for completion
             let checkbox = document.createElement("input");
@@ -120,7 +172,7 @@ function loadTasksFromCookie() {
             let deleteBtn = document.createElement("button");
             deleteBtn.className = "btn btn-danger btn-sm";
             deleteBtn.textContent = "❌";
-            deleteBtn.style.backgroundColor = "white"; // Added style to make background white
+            deleteBtn.style.backgroundColor = "white";
             deleteBtn.onclick = function() {
                 if (confirm("Are you sure you want to delete this task?")) {
                     let taskList = document.getElementById("taskList");
@@ -133,6 +185,8 @@ function loadTasksFromCookie() {
             li.appendChild(span);
             li.appendChild(deleteBtn);
             document.getElementById("taskList").appendChild(li);
+
+            addDnDHandlers(li);
         });
     } catch (e) {
         console.error("Error parsing tasks from cookie", e);
