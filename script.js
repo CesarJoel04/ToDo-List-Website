@@ -37,6 +37,7 @@ function handleDragEnd(e) {
 }
 
 function addDnDHandlers(elem) {
+    elem.style.touchAction = 'none'; // Prevent default touch behavior
     elem.setAttribute('draggable', true);
     elem.addEventListener('dragstart', handleDragStart, false);
     elem.addEventListener('dragover', handleDragOver, false);
