@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 let dragSrcEl = null;
 
 function handleDragStart(e) {
@@ -46,8 +45,6 @@ function addDnDHandlers(elem) {
     elem.addEventListener('dragend', handleDragEnd, false);
 }
 
-=======
->>>>>>> parent of 9b82c4b (updated script.js to make todo list draggable)
 function addTask() {
     let taskInput = document.getElementById("taskInput");
     let taskText = taskInput.value.trim();
