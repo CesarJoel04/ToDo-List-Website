@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 let dragSrcEl = null;
 
 function handleDragStart(e) {
@@ -45,6 +46,8 @@ function addDnDHandlers(elem) {
     elem.addEventListener('dragend', handleDragEnd, false);
 }
 
+=======
+>>>>>>> parent of 9b82c4b (updated script.js to make todo list draggable)
 function addTask() {
     let taskInput = document.getElementById("taskInput");
     let taskText = taskInput.value.trim();
@@ -67,8 +70,6 @@ function addTask() {
 
     let li = document.createElement("li");
     li.className = "list-group-item d-flex justify-content-between align-items-center";
-    // Make the list item draggable
-    addDnDHandlers(li);
 
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -94,8 +95,6 @@ function addTask() {
     li.appendChild(span);
     li.appendChild(deleteBtn);
     taskList.appendChild(li);
-
-    addDnDHandlers(li);
 
     taskInput.value = "";
     updateTasksCookie();
@@ -152,8 +151,6 @@ function loadTasksFromCookie() {
             if (task.completed) {
                 li.classList.add("completed");
             }
-            // Enable drag and drop
-            addDnDHandlers(li);
     
             // Checkbox for completion
             let checkbox = document.createElement("input");
@@ -173,7 +170,7 @@ function loadTasksFromCookie() {
             let deleteBtn = document.createElement("button");
             deleteBtn.className = "btn btn-danger btn-sm";
             deleteBtn.textContent = "❌";
-            deleteBtn.style.backgroundColor = "white";
+            deleteBtn.style.backgroundColor = "white"; // Added style to make background white
             deleteBtn.onclick = function() {
                 if (confirm("Are you sure you want to delete this task?")) {
                     let taskList = document.getElementById("taskList");
@@ -186,8 +183,6 @@ function loadTasksFromCookie() {
             li.appendChild(span);
             li.appendChild(deleteBtn);
             document.getElementById("taskList").appendChild(li);
-
-            addDnDHandlers(li);
         });
     } catch (e) {
         console.error("Error parsing tasks from cookie", e);
